@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digital Studio</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<section id="screen-login" class="screen">
+  <div class="admin-link" onclick="showRoute('adminLogin')" data-i18n="adminLogin">Admin Login</div>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <img class="auth-logo" src="logo.png" alt="Digital Studio">
+      <h1 class="auth-title" data-i18n="appName">Digital Studio</h1>
+      <p class="auth-tagline" data-i18n="tagline">Your complete guide for exams, current affairs & more</p>
+      <div id="backendWarningLogin" class="backend-warning" style="display:none" data-i18n="errBackendNotSet"></div>
+      <div id="loginError" class="error-msg"></div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="field">
+          <label data-i18n="gmailPhone">Gmail / Phone Number</label>
+          <input type="text" name="identifier" required data-i18n-ph="gmailPhone">
+        </div>
+        <div class="field">
+          <label data-i18n="password">Password</label>
+          <input type="password" name="password" required data-i18n-ph="password">
+        </div>
+        <button type="submit" class="btn btn-primary" data-i18n="loginBtn">Login</button>
+      </form>
+      <div class="link-row">
+        <span data-i18n="newHere">New to website?</span>
+        <a onclick="showRoute('register')" data-i18n="clickRegister">Click here to register</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REGISTER ================= -->
+<section id="screen-register" class="screen">
+  <div class="auth-wrap">
+    <div class="auth-card" style="max-width:560px">
+      <h1 class="auth-title" data-i18n="registerTitle">Create your account</h1>
+      <div id="registerError" class="error-msg"></div>
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div class="field"><label data-i18n="name">Name</label><input type="text" name="name" required></div>
+        <div class="field"><label data-i18n="fatherName">Father's Name</label><input type="text" name="fatherName" required></div>
+        <div class="form-grid-2">
+          <div class="field"><label data-i18n="phone">Phone Number</label><input type="tel" name="phone" maxlength="11" required></div>
+          <div class="field"><label data-i18n="email">Email</label><input type="email" name="email" required></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="field"><label data-i18n="password">Password</label><input type="password" name="password" required></div>
+          <div class="field"><label data-i18n="rePassword">Re-enter Password</label><input type="password" name="rePassword" required></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="field"><label data-i18n="village">Village</label><input type="text" name="village" required></div>
+          <div class="field"><label data-i18n="postOffice">Post Office</label><input type="text" name="postOffice" required></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="field"><label data-i18n="pinCode">Pin Code</label><input type="text" name="pinCode" required></div>
+          <div class="field"><label data-i18n="district">District</label><input type="text" name="district" required></div>
+        </div>
+        <div class="field"><label data-i18n="addressLine">Address Line</label><input type="text" name="addressLine" required></div>
+        <button type="submit" class="btn btn-primary" data-i18n="registerBtn">Register</button>
+      </form>
+      <div class="link-row"><a onclick="showRoute('login')" data-i18n="backToLogin">Back to login</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ADMIN LOGIN ================= -->
+<section id="screen-adminLogin" class="screen">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1 class="auth-title" data-i18n="adminLogin">Admin Login</h1>
+      <div id="adminLoginError" class="error-msg"></div>
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+        <div class="field"><label>Login ID</label><input type="text" name="adminId" required></div>
+        <div class="field"><label data-i18n="password">Password</label><input type="password" name="adminPassword" required></div>
+        <button type="submit" class="btn btn-primary" data-i18n="loginBtn">Login</button>
+      </form>
+      <div class="link-row"><a onclick="showRoute('login')" data-i18n="backToLogin">Back to login</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOME ================= -->
+<section id="screen-home" class="screen">
+  <div class="topbar">
+    <div class="topbar-brand"><img src="logo.png" alt=""><span data-i18n="appName">Digital Studio</span></div>
+    <div class="topbar-actions">
+      <select class="lang-select" onchange="setLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+      <button class="dot-btn" onclick="toggleMenu()">⋮</button>
+      <div id="dotMenu" class="dot-menu">
+        <button onclick="openMenuItem('currentAffairs')" data-i18n="dailyCurrentAffairs">Daily Current Affairs</button>
+        <button onclick="openMenuItem('mockTests')" data-i18n="mockTests">Mock Tests</button>
+        <div class="divider"></div>
+        <button onclick="openMenuItem('wbcs')" data-i18n="wbcsNotes">WBCS Notes</button>
+        <button onclick="openMenuItem('wbpsc')" data-i18n="wbpscNotes">WBPSC Notes</button>
+        <button onclick="openMenuItem('gp')" data-i18n="gramPanchayat">WB Grampanchayat Notes</button>
+        <button onclick="openMenuItem('ssc')" data-i18n="sscRailway">SSC & Railway Notes</button>
+        <button onclick="openMenuItem('deled')" data-i18n="deledNotes">D.El.Ed Notes</button>
+        <button onclick="openMenuItem('tet')" data-i18n="tetNotes">TET Notes</button>
+        <button onclick="openMenuItem('ctet')" data-i18n="ctetNotes">CTET Notes</button>
+        <button onclick="openMenuItem('jobs')" data-i18n="jobNotif">Job Notifications</button>
+        <button onclick="openMenuItem('scholarship')" data-i18n="scholarshipNotif">Scholarship Notifications</button>
+        <div id="adminMenuDivider" class="divider" style="display:none"></div>
+        <button id="adminMenuUserProfiles" style="display:none" onclick="openMenuItem('userProfiles')" data-i18n="userProfiles">User Profiles</button>
+        <div class="divider"></div>
+        <button onclick="logout()" data-i18n="logout">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <img src="logo.png" alt="Digital Studio">
+    <h1 id="homeWelcome" data-i18n="appName">Digital Studio</h1>
+    <p data-i18n="tagline">Your complete guide for exams, current affairs & more</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">12,480+</div><div class="stat-label" data-i18n="statUsers">Active Users</div></div>
+    <div class="stat-card"><div class="stat-num">9,150+</div><div class="stat-label" data-i18n="statBenefited">Students Benefited</div></div>
+    <div class="stat-card"><div class="stat-num">9.4 <span data-i18n="outOf10">/ 10</span></div><div class="stat-label" data-i18n="statRating">Our Rating</div></div>
+  </div>
+</section>
+
+<!-- ================= DAILY CURRENT AFFAIRS ================= -->
+<section id="screen-currentAffairs" class="screen">
+  <div class="section-wrap">
+    <button class="back-btn" onclick="showRoute('home')">← <span data-i18n="back">Back</span></button>
+    <h2 class="section-title" data-i18n="dailyCurrentAffairs">Daily Current Affairs</h2>
+    <div id="adminAddCaBtnWrap" style="display:none;margin-bottom:14px">
+      <button class="btn btn-small" onclick="showModal('addCaModal')">+ <span data-i18n="addNew">Add New</span></button>
+    </div>
+    <div id="caList"></div>
+  </div>
+</section>
+
+<!-- ================= MOCK TESTS (student) ================= -->
+<section id="screen-mockTests" class="screen">
+  <div class="section-wrap">
+    <button class="back-btn" onclick="showRoute('home')">← <span data-i18n="back">Back</span></button>
+    <h2 class="section-title" data-i18n="mockTests">Mock Tests</h2>
+    <div id="mtList"></div>
+  </div>
+</section>
+
+<!-- ================= MOCK TESTS (admin) ================= -->
+<section id="screen-adminMockTests" class="screen">
+  <div class="section-wrap">
+    <button class="back-btn" onclick="showRoute('home')">← <span data-i18n="back">Back</span></button>
+    <h2 class="section-title" data-i18n="mockTests">Mock Tests</h2>
+    <button class="btn btn-small" onclick="showModal('addQuizModal')" style="margin-bottom:14px">+ <span data-i18n="addNew">Add New</span></button>
+    <div id="adminMtList"></div>
+  </div>
+</section>
+
+<!-- ================= USER PROFILES (admin) ================= -->
+<section id="screen-userProfiles" class="screen">
+  <div class="section-wrap">
+    <button class="back-btn" onclick="showRoute('home')">← <span data-i18n="back">Back</span></button>
+    <h2 class="section-title" data-i18n="userProfiles">User Profiles</h2>
+    <div id="userProfilesList"></div>
+  </div>
+</section>
+
+<!-- ================= QUIZ ATTEMPT ================= -->
+<section id="screen-quizAttempt" class="screen">
+  <div class="quiz-header">
+    <div id="quizAttemptTitle" style="font-weight:700"></div>
+    <div id="quizTimer"></div>
+  </div>
+  <div id="quizAttemptBody"></div>
+  <div class="quiz-submit-bar">
+    <button class="btn btn-primary" onclick="submitQuiz(false)" data-i18n="submitTest">Submit Test</button>
+  </div>
+</section>
+
+<!-- ================= QUIZ RESULT ================= -->
+<section id="screen-quizResult" class="screen">
+  <div class="section-wrap">
+    <button id="quizResultBackBtn" class="back-btn" onclick="showRoute('home')">← <span data-i18n="back">Back</span></button>
+    <div class="result-hero">
+      <div class="result-score-num"><span data-i18n="yourScore">Your Score</span>: <span id="quizResultScore">0</span></div>
+      <div class="result-breakdown">
+        <div><span data-i18n="correct">Correct</span>: <span id="quizResultCorrect">0</span></div>
+        <div><span data-i18n="wrong">Wrong</span>: <span id="quizResultWrong">0</span></div>
+        <div><span data-i18n="unanswered">Unanswered</span>: <span id="quizResultUnanswered">0</span></div>
+      </div>
+    </div>
+    <div id="quizResultAnswers"></div>
+  </div>
+</section>
+
+<!-- ================= MODALS ================= -->
+
+<div id="addCaModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 class="modal-title" data-i18n="dailyCurrentAffairs">Daily Current Affairs</h3>
+    <form id="addCaForm" onsubmit="handleAddCurrentAffairs(event)">
+      <div class="field"><label data-i18n="fileName">File Name</label><input type="text" name="fileName" required></div>
+      <div class="field"><label data-i18n="addText">Add Text</label>
+        <textarea name="text" rows="8" required style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.04);color:var(--text);font-family:inherit"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="hideModal('addCaModal')" data-i18n="close">Close</button>
+        <button type="submit" class="btn btn-primary" data-i18n="save">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="caFileModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 id="caFileTitle" class="modal-title"></h3>
+    <div id="caFileBody"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="hideModal('caFileModal')" data-i18n="close">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="addQuizModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 class="modal-title" data-i18n="addNew">Add New</h3>
+    <form id="addQuizForm" onsubmit="handleAddQuiz(event)">
+      <div class="field"><label data-i18n="quizName">Quiz Name</label><input type="text" name="quizName" required></div>
+      <div class="field"><label data-i18n="duration">Duration (minutes)</label><input type="number" name="duration" min="1" required></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="hideModal('addQuizModal')" data-i18n="close">Close</button>
+        <button type="submit" class="btn btn-primary" data-i18n="save">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="addQuestionModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 class="modal-title" data-i18n="addQuestion">Add Question</h3>
+    <form id="addQuestionForm" onsubmit="handleAddQuestion(event)">
+      <div class="field"><label data-i18n="question">Question</label><input type="text" name="questionText" required></div>
+      <div class="field"><label data-i18n="imageOptional">Image URL (optional)</label><input type="text" name="questionImage"></div>
+
+      <fieldset>
+        <legend data-i18n="option">Option</legend>
+        <div class="field">
+          <div class="image-input-row">
+            <input type="radio" name="correctOption" value="0" required>
+            <input type="text" name="optionText0" placeholder="Option 1" required style="flex:1">
+          </div>
+          <input type="text" name="optionImage0" placeholder="Image URL (optional)" style="margin-top:6px">
+        </div>
+        <div class="field">
+          <div class="image-input-row">
+            <input type="radio" name="correctOption" value="1">
+            <input type="text" name="optionText1" placeholder="Option 2" required style="flex:1">
+          </div>
+          <input type="text" name="optionImage1" placeholder="Image URL (optional)" style="margin-top:6px">
+        </div>
+        <div class="field">
+          <div class="image-input-row">
+            <input type="radio" name="correctOption" value="2">
+            <input type="text" name="optionText2" placeholder="Option 3" required style="flex:1">
+          </div>
+          <input type="text" name="optionImage2" placeholder="Image URL (optional)" style="margin-top:6px">
+        </div>
+        <div class="field">
+          <div class="image-input-row">
+            <input type="radio" name="correctOption" value="3">
+            <input type="text" name="optionText3" placeholder="Option 4" required style="flex:1">
+          </div>
+          <input type="text" name="optionImage3" placeholder="Image URL (optional)" style="margin-top:6px">
+        </div>
+      </fieldset>
+
+      <div class="form-grid-2">
+        <div class="field"><label data-i18n="correctMarks">Correct Marks</label><input type="number" step="0.01" name="correctMarks" value="1" required></div>
+        <div class="field"><label data-i18n="negativeMarks">Negative Marks</label><input type="number" step="0.01" name="negativeMarks" value="0" required></div>
+      </div>
+      <div class="field"><label data-i18n="explanation">Explanation</label><input type="text" name="explanation"></div>
+      <div class="field"><label data-i18n="imageOptional">Image URL (optional)</label><input type="text" name="explanationImage"></div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="hideModal('addQuestionModal')" data-i18n="close">Close</button>
+        <button type="submit" class="btn btn-primary" data-i18n="save">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="quizResultsListModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 class="modal-title" data-i18n="viewResults">View Results</h3>
+    <div id="quizResultsListBody"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="hideModal('quizResultsListModal')" data-i18n="close">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirmModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 class="modal-title" data-i18n="confirmTitle">Warning</h3>
+    <p id="confirmModalMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="hideModal('confirmModal')" data-i18n="no">No</button>
+      <button class="btn btn-primary" onclick="executeConfirmedAction()" data-i18n="yes">Yes</button>
+    </div>
+  </div>
+</div>
+
+<div id="comingSoonModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 class="modal-title" data-i18n="notAvailable">Not available yet</h3>
+    <p id="comingSoonText"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="hideModal('comingSoonModal')" data-i18n="close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="language.js"></script>
+<script src="auth.js"></script>
+<script src="current-affairs.js"></script>
+<script src="mocktest.js"></script>
+<script src="admin.js"></script>
+<script>
+/* =========================================================
+   DIGITAL STUDIO — ROUTER / BOOTSTRAP
+   ========================================================= */
+
+function showRoute(name) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  const target = document.getElementById("screen-" + name);
+  if (target) target.classList.add("active");
+  closeMenu();
+  window.scrollTo({ top: 0, behavior: "instant" });
+  if (name === "home") renderHomeForRole();
+}
+
+function showModal(id) { document.getElementById(id).classList.add("open"); }
+function hideModal(id) { document.getElementById(id).classList.remove("open"); }
+
+function renderHomeForRole() {
+  const welcomeEl = document.getElementById("homeWelcome");
+  if (IS_ADMIN) {
+    welcomeEl.textContent = t("welcome") + ", " + t("adminPanel");
+    document.getElementById("adminMenuDivider").style.display = "block";
+    document.getElementById("adminMenuUserProfiles").style.display = "block";
+  } else if (CURRENT_USER) {
+    welcomeEl.textContent = t("welcome") + ", " + CURRENT_USER.name;
+    document.getElementById("adminMenuDivider").style.display = "none";
+    document.getElementById("adminMenuUserProfiles").style.display = "none";
+  } else {
+    applyTranslations();
+  }
+}
+
+document.addEventListener("click", (e) => {
+  const menu = document.getElementById("dotMenu");
+  if (menu.classList.contains("open") && !menu.contains(e.target) && e.target.id !== "" && !e.target.closest(".dot-btn")) {
+    closeMenu();
+  }
+});
+
+// ---------- BOOTSTRAP ----------
+(function init() {
+  document.querySelector(`.lang-select option[value="${currentLang}"]`)?.setAttribute("selected", true);
+  document.querySelectorAll(".lang-select").forEach(sel => sel.value = currentLang);
+  applyTranslations();
+
+  document.getElementById("backendWarningLogin").style.display = backendReady() ? "none" : "block";
+
+  if (IS_ADMIN || CURRENT_USER) {
+    showRoute("home");
+  } else {
+    showRoute("login");
+  }
+})();
+</script>
+</body>
+</html>
