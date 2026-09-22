@@ -62,7 +62,7 @@ async function handleRegister(e) {
   for (const k of ["name", "fatherName", "phone", "email", "password", "rePassword", "village", "postOffice", "pinCode", "district", "addressLine"]) {
     if (!data[k]) return showError("registerError", t("errRequired"));
   }
-  if (!/^\d{11}$/.test(data.phone)) return showError("registerError", t("errPhoneDigits"));
+  if (!/^\d{10}$/.test(data.phone)) return showError("registerError", t("errPhoneDigits"));
   if (!isValidEmail(data.email)) return showError("registerError", t("errEmailFormat"));
   if (data.password !== data.rePassword) return showError("registerError", t("errPasswordMatch"));
 
